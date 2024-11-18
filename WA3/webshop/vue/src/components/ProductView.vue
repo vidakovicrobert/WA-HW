@@ -220,6 +220,12 @@ let proizvod = ref({
     velicine: []
 });
 
+let podaci = ref({
+    naruceni_proizvodi: [
+        { id: 1, narucena_kolicina: 2 },
+        { id: 3, narucena_kolicina: 1 },
+    ],
+});
 
 // asinkroni callback (hook)
 onMounted(async () => {
@@ -233,8 +239,7 @@ onMounted(async () => {
 
 const posaljiNarudzbu = async () => {
     try {
-        let response = await axios.post('http://localhost:3000/narudzbe', podaci.value); //
-        axios.post(url, data)
+        let response = await axios.post('http://localhost:3000/narudzbe', podaci.value); // axios.post(url, data)
         console.log(response);
     } catch (error) {
         console.error('Greška u dohvatu podataka: ', error);
