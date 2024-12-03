@@ -1,0 +1,42 @@
+[
+    {
+        "ime": "Robert",
+        "prezime": "Vidakovic",
+        "jmbag": 12345678
+    }
+]
+
+library(igraph)
+
+cost_matrix <- matrix(c(
+10,
+15,
+9,
+9,
+18,
+5,
+6,
+14,
+3 
+), nrow = 3, byrow = TRUE,
+dimnames = list(c("Ivan",
+"Maja",
+"Luka"),
+              c("Dizajn maske",
+"Dizajn kućišta",
+"Odabir komponenti")))
+
+
+edges <- data.frame(
+from = rep(rownames(cost_matrix), each = ncol(cost_matrix)), # zaposlenici
+to = rep(colnames(cost_matrix), times = nrow(cost_matrix)), # zadaci
+weight = as.vector(cost_matrix) # težine
+)
+
+g <- graph_from_data_frame(edges, directed = FALSE)
+
+V(g)$type <- V(g)$name %in% rownames(cost_matrix)
+
+matching <- max_bipartite_match(g, weights = E(g)$weight)
+
+matching$weight
